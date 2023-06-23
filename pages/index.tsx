@@ -26,7 +26,7 @@ const render = (status: Status): ReactElement => {
 export default function Home() {
   return (
     <div>
-      <Wrapper apiKey='AIzaSyDNpO3tL5BHx7UkkK96iyhNxVJCgE1dot4' render={render}>
+      <Wrapper apiKey='API_KEY' render={render}>
         <MyMapComponent />
       </Wrapper>
     </div>

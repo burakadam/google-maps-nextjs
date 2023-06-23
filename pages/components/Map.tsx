@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { DEFAULT_MAP_OPTIONS } from '../constants/defaultMapOptions';
 import { MAP_DATA } from '../constants/mapData';
 
-interface IOverlayProps {
+interface IDataProps {
   title: string;
   latitude: number;
   longitude: number;
@@ -11,8 +11,9 @@ interface IOverlayProps {
 
 function MyMapComponent() {
   const ref = useRef(null);
+  const [data, setData] = useState<IDataProps[]>(MAP_DATA);
   const [showInfo, setShowInfo] = useState(false);
-  const [activeMarker, setActiveMarker] = useState<IOverlayProps | null>(null);
+  const [activeMarker, setActiveMarker] = useState<IDataProps | null>(null);
 
   const hideInfo = () => {
     setShowInfo(false);
@@ -23,9 +24,10 @@ function MyMapComponent() {
     if (!ref.current) return;
     const map = new google.maps.Map(ref.current, DEFAULT_MAP_OPTIONS);
 
+    if (data.length < 1) return;
     var bounds = new google.maps.LatLngBounds();
 
-    const markers = MAP_DATA.map((item, i) => {
+    const markers = data.map((item, i) => {
       const marker = new google.maps.Marker({
         position: { lat: item.latitude, lng: item.longitude },
         icon: {
@@ -66,7 +68,7 @@ function MyMapComponent() {
     };
 
     new MarkerClusterer({ markers, map, renderer: markerRenderer });
-  }, [ref]);
+  }, [data, ref]);
 
   return (
     <div className='relative w-[600px] overflow-hidden '>
